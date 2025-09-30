@@ -320,20 +320,20 @@ const General = {
                     "type": "item",
                     "title": "SKP"
                   },
-                  {
-                    // "id": 602002,
-                    "href": "/profil/kinerja/pkgpkp",
-                    "icon": "typcn typcn-media-record",
-                    "type": "item",
-                    "title": "PKG / PKP"
-                  },
-                  {
-                    // "id": 602002,
-                    "href": "/profil/kinerja/penugasan",
-                    "icon": "typcn typcn-media-record",
-                    "type": "item",
-                    "title": "Penugasan"
-                  },
+                  // {
+                  //   // "id": 602002,
+                  //   "href": "/profil/kinerja/pkgpkp",
+                  //   "icon": "typcn typcn-media-record",
+                  //   "type": "item",
+                  //   "title": "PKG / PKP"
+                  // },
+                  // {
+                  //   // "id": 602002,
+                  //   "href": "/profil/kinerja/penugasan",
+                  //   "icon": "typcn typcn-media-record",
+                  //   "type": "item",
+                  //   "title": "Penugasan"
+                  // },
                 ],
                 "title": "Kinerja",
                 "translate": "KINERJA"
