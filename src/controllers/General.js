@@ -8,14 +8,14 @@ const General = {
     const getMenuQuery = `select * from get_allowed_page($1)`;
     try {
       const { rows, rowCount } = await db.query(getMenuQuery, [req.params.user_kategori]);
-	  var i = 0;	  
-	  if (!rowCount) {
+      var i = 0;
+      if (!rowCount) {
         return res.status(400).send({ 'RC': '04', 'message': 'Proses Gagal' });
       } else {
-		const allowedpage = rows;		 
+        const allowedpage = rows;
         return res.status(200).send({ 'RC': '00', 'message': 'Sukses', allowedpage });
       }
-      
+
     } catch (error) {
       return res.status(400).send({ 'RC': '99', 'message': 'Error Koneksi atau Data', error });
     }
@@ -55,7 +55,7 @@ const General = {
     const path = '/api/web/general/getNextStatus';
     const method = 'POST';
     const findOneQuery = `select * from eoffice.get_next_status  ($1,$2,$3)`;
-    console.log(findOneQuery, [req.user.nip, req.params.status_id,req.params.type_surat]);
+    console.log(findOneQuery, [req.user.nip, req.params.status_id, req.params.type_surat]);
     try {
       const { rows, rowCount } = await db.query(findOneQuery, [req.user.nip, req.params.status_id, req.params.type_surat]);
       if (!rowCount) {
@@ -75,7 +75,7 @@ const General = {
     const findOneQuery = `select * from eoffice.get_ddl_unker($1)`;
     //console.log(findOneQuery, [req.params.level_id]);
     try {
-      const { rows, rowCount } = await db.query(findOneQuery,[req.params.level_id]);
+      const { rows, rowCount } = await db.query(findOneQuery, [req.params.level_id]);
       if (!rowCount) {
         return res.status(200).send({ 'RC': '05', 'message': 'Tidak ada Data' });
       } else {
@@ -119,9 +119,9 @@ const General = {
   async getWebDetailDdlLang(req, res) {
     /// ddl header untuk web
     const findOneQuery = `select * from ddl_detail($1::smallint,$2)`;
-    console.log(findOneQuery, [req.params.header_id,req.params.lang]);
+    console.log(findOneQuery, [req.params.header_id, req.params.lang]);
     try {
-      const { rows, rowCount } = await db.query(findOneQuery, [req.params.header_id,req.params.lang]);
+      const { rows, rowCount } = await db.query(findOneQuery, [req.params.header_id, req.params.lang]);
       if (!rowCount) {
         return res.status(200).send({ 'RC': '05', 'message': 'Tidak ada Data' });
       } else {
@@ -136,19 +136,263 @@ const General = {
     const path = '/api/web/menu/';
     const method = 'POST';
     const findOneQuery = `select * from eoffice.menu_crud ($1,$2,$3,$4,$5)`;
-	console.log(findOneQuery, [ip, path, method, req.user.nip,JSON.stringify(req.body)]);
+    console.log(findOneQuery, [ip, path, method, req.user.nip, JSON.stringify(req.body)]);
     try {
       const { rows, rowCount } = await db.query(findOneQuery, [ip, path, method, req.user.nip, req.body]);
       if (!rowCount) {
         return res.status(400).send({ 'RC': '05', 'message': 'Tidak Ada Data' });
       } else {
-        return res.status(200).send({ 'RC': rows[0].rc, 'message': rows[0].message, 'data': rows[0].data });
+        let result = rows[0].data;
+        result.unshift(
+          {
+            // "id": 600000,
+            "icon": "fas fa-archive",
+            "type": "group",
+            "child": [
+              {
+                // "id": 602000,
+                "icon": "far fa-user",
+                "type": "collapse",
+                "child": [
+                  {
+                    // "id": 602001,
+                    "href": "/profil/riwayatUmumPegawai/",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Riwayat Umum Pegawai"
+                  },
+                  {
+                    // "id": 602001,
+                    "href": "/drh/Drh",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Data Riwayat Hidup"
+                  },
+                ],
+                "title": "Profil",
+                "translate": "PROFIL"
+              },
+              {
+                // "id": 602000,
+                "icon": "far fa-user",
+                "type": "collapse",
+                "child": [
+                  {
+                    // "id": 602002,
+                    "href": "/profil/keluarga/suamiistri",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Suami / Istri"
+                  },
+                  {
+                    // "id": 600001,
+                    "href": "/profil/keluarga/anak",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Anak"
+                  },
+                ],
+                "title": "Keluarga",
+                "translate": "KELUARGA"
+              },
+              {
+                // "id": 602000,
+                "icon": "far fa-user",
+                "type": "collapse",
+                "child": [
+                  {
+                    // "id": 602002,
+                    "href": "/profil/pendidikan/pendidikan",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Pendidikan"
+                  },
+                  {
+                    // "id": 600001,
+                    "href": "/profil/pendidikan/diklat",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Diklat"
+                  },
+                ],
+                "title": "Pendidikan",
+                "translate": "PENDIDIKAN"
+              },
+              {
+                // "id": 602000,
+                "icon": "far fa-user",
+                "type": "collapse",
+                "child": [
+                  {
+                    // "id": 602002,
+                    "href": "/profil/pekerjaan/pangkat",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Pangkat"
+                  },
+                  {
+                    // "id": 600001,
+                    "href": "/profil/pekerjaan/jabatan",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Jabatan"
+                  },
+                  {
+                    // "id": 602003,
+                    "href": "/profil/pekerjaan/angka_kredit",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Angka Kredit"
+                  },
+                ],
+                "title": "Pekerjaan",
+                "translate": "PEKERJAAN"
+              },
+              {
+                // "id": 602000,
+                "icon": "far fa-user",
+                "type": "collapse",
+                "child": [
+                  {
+                    // "id": 602002,
+                    "href": "/profil/pendukung/tanda_jasa",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Tanda Jasa"
+                  },
+                  {
+                    // "id": 602002,
+                    "href": "/profil/pendukung/pengalaman",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Pengalaman"
+                  },
+                  {
+                    // "id": 602002,
+                    "href": "/profil/pendukung/organisasi",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Organisasi"
+                  },
+                  {
+                    // "id": 602002,
+                    "href": "/profil/pendukung/karya_tulis",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Karya Tulis"
+                  },
+                  {
+                    // "id": 602002,
+                    "href": "/profil/pendukung/sertifikasi",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Sertifikasi"
+                  },
+                ],
+                "title": "Pendukung",
+                "translate": "PENDUKUNG"
+              },
+              {
+                // "id": 602000,
+                "icon": "far fa-user",
+                "type": "collapse",
+                "child": [
+                  {
+                    // "id": 602002,
+                    "href": "/profil/kgb",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Riwayat KGB"
+                  },
+                ],
+                "title": "KGB",
+                "translate": "KGB"
+              },
+              {
+                // "id": 602000,
+                "icon": "far fa-user",
+                "type": "collapse",
+                "child": [
+                  {
+                    // "id": 602002,
+                    "href": "/profil/kinerja/skp",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "SKP"
+                  },
+                  {
+                    // "id": 602002,
+                    "href": "/profil/kinerja/pkgpkp",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "PKG / PKP"
+                  },
+                  {
+                    // "id": 602002,
+                    "href": "/profil/kinerja/penugasan",
+                    "icon": "typcn typcn-media-record",
+                    "type": "item",
+                    "title": "Penugasan"
+                  },
+                ],
+                "title": "Kinerja",
+                "translate": "KINERJA"
+              }
+            ],
+            "title": "SIMPEG",
+            "translate": "SIMPEG"
+          },
+        );
+        if (req.body.role_id == '40') {
+          result.unshift(
+            {
+              // "id": 600000,
+              "icon": "fas fa-archive",
+              "type": "group",
+              "child": [
+                {
+                  // "id": 602000,
+                  "icon": "far fa-user",
+                  "type": "collapse",
+                  "child": [
+                    {
+                      // "id": 602001,
+                      "href": "/admin_pegawai/data_pegawai",
+                      "icon": "typcn typcn-media-record",
+                      "type": "item",
+                      "title": "Admin Data Pegawai"
+                    },
+                    {
+                      // "id": 602001,
+                      "href": "/verif_pegawai/daftar_pegawai",
+                      "icon": "typcn typcn-media-record",
+                      "type": "item",
+                      "title": "Verifikasi Pegawai"
+                    },
+                    {
+                      // "id": 602001,
+                      "href": "/statspegawai",
+                      "icon": "typcn typcn-media-record",
+                      "type": "item",
+                      "title": "Statistik Pegawai"
+                    },
+                  ],
+                  "title": "Data Pegawai",
+                  "translate": "DATA PEGAWAI"
+                }
+              ],
+              "title": "Admin SIMPEG",
+              "translate": "ADMIN SIMPEG"
+            },
+          );
+        }
+        return res.status(200).send({ 'RC': rows[0].rc, 'message': rows[0].message, 'data': result });
       }
     } catch (error) {
       return res.status(400).send({ 'RC': '99', 'message': 'Error Koneksi atau Data', error });
     }
   },
- 
+
   async ubahPassword(req, res) {
     ///api/umrah/asuransi/pembayaran/{tanggal_awal}/{tanggal_akhir}/{page}
     //parameter_header_crud('10.100.88.14','general/header','Get','tambah','tes',null,'tesheader','tes header','ket','N','55')
@@ -156,20 +400,20 @@ const General = {
     const path = '/api/web/ubahpassword';
     const method = 'POST';
     const findOneQuery = `select * from eoffice.users_changepassword($1,$2,$3,$4,$5,$6)`;
-   console.log(findOneQuery, [ip, path, method, req.user.nip, req.body.password_baru, req.body.password_lama]);
-  
+    console.log(findOneQuery, [ip, path, method, req.user.nip, req.body.password_baru, req.body.password_lama]);
+
     try {
       const { rows, rowCount } = await db.query(findOneQuery, [ip, path, method, req.user.nip, req.body.password_baru, req.body.password_lama]);
       if (!rowCount) {
         return res.status(400).send({ 'RC': '04', 'message': 'Proses Gagal' });
       } else {
-        const message =rows[0].message;
+        const message = rows[0].message;
         let data = [];
         data = rows[0].data;
 
-        if(message==='sukses'){		
+        if (message === 'sukses') {
           return res.status(200).send({ 'RC': '00', 'message': 'sukses', rows });
-        }else{
+        } else {
           return res.status(200).send({ 'RC': '05', 'message': message, rows });
         }
       }
@@ -184,8 +428,8 @@ const General = {
     const path = '/api/web/login/forgotpassword';
     const method = 'POST';
     const findOneQuery = `select * from eoffice.users_token_reset($1,$2,$3,$4,$5)`;
-  console.log(findOneQuery, [ip, path, method, 'web', req.body]);
-  
+    console.log(findOneQuery, [ip, path, method, 'web', req.body]);
+
     try {
       const { rows, rowCount } = await db.query(findOneQuery, [ip, path, method, 'web', req.body]);
       if (!rowCount) {
@@ -196,7 +440,7 @@ const General = {
         console.log(rows[0].data[0].token_reset);
         console.log(rows[0].data[0].user_id);
         */
-       
+
         //Sendnodeemails.send(res);
         var email_target = rows[0].data[0].email;
         var token_target = rows[0].data[0].token_reset;
@@ -206,45 +450,46 @@ const General = {
         var nodemailer = require('nodemailer');
 
         var kontenhtml = "<p>UKPBJ telah menerima permintaan untuk mereset password anda dengan keterangan sebagai berikut. <br><br> " +
-              "<b>NIP: </b> " +user_target+ "<br> <b>Nama: </b> "+nama_target+ "<br> <b>Email: </b> "+email_target+" <br><br> " +
-        "Bila permintaan ini benar, maka silahkan klik URL berikut untuk mengubah password yang baru. <br>" +
-      req.body.baseurl + "/apps/users/resetPassword?token=" + token_target + "<br><br>" +
+          "<b>NIP: </b> " + user_target + "<br> <b>Nama: </b> " + nama_target + "<br> <b>Email: </b> " + email_target + " <br><br> " +
+          "Bila permintaan ini benar, maka silahkan klik URL berikut untuk mengubah password yang baru. <br>" +
+          req.body.baseurl + "/apps/users/resetPassword?token=" + token_target + "<br><br>" +
           "Bila bukan, maka silahkan acuhkan email ini.<br><br><b>Terimakasih</b><br><b>Admin UKPBJ</b></p>";
-          var transporterProxy = nodemailer.createTransport({
+        var transporterProxy = nodemailer.createTransport({
           //  service: process.env.EMAIL_SERVICE,
-           // type: process.env.EMAIL_TYPE,
-             host: process.env.EMAIL_HOST,
-             port:  process.env.EMAIL_PORT,
-             secure: false,
-       //  service: "Outlook365",
-  
+          // type: process.env.EMAIL_TYPE,
+          host: process.env.EMAIL_HOST,
+          port: process.env.EMAIL_PORT,
+          secure: false,
+          //  service: "Outlook365",
+
           auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
           },
-           tls: { ciphers: 'SSLv3',
-           rejectUnauthorized: false
+          tls: {
+            ciphers: 'SSLv3',
+            rejectUnauthorized: false
           },
-       //   debug: false,
-       //   logger: true
-          });
-  
-          
-            var mailOptions = {
-              from: process.env.EMAIL_USER ,
-              to: email_target,
-              subject: "UKPBJ : Reset Password",
-              html: kontenhtml
-            };
-        transporterProxy.sendMail(mailOptions, function(error, info){
+          //   debug: false,
+          //   logger: true
+        });
+
+
+        var mailOptions = {
+          from: process.env.EMAIL_USER,
+          to: email_target,
+          subject: "UKPBJ : Reset Password",
+          html: kontenhtml
+        };
+        transporterProxy.sendMail(mailOptions, function (error, info) {
           if (error) {
             console.log(error);
-          //  return res.status(400).send({ 'RC': '24', 'message': 'Gagal Kirim'});
-            
+            //  return res.status(400).send({ 'RC': '24', 'message': 'Gagal Kirim'});
+
           } else {
             console.log('Email sent: ' + info.response);
-          //  return res.status(200).send({ 'RC': '00', 'message': 'berhasil' });
-            
+            //  return res.status(200).send({ 'RC': '00', 'message': 'berhasil' });
+
           }
         });
 
@@ -269,12 +514,12 @@ const General = {
     const path = '/api/web/pusat/master/usermanagement';
     const method = 'POST';
     const findOneQuery = `select * from eoffice.user_crud($1,$2,$3,$4,$5)`;
-    
-    console.log(findOneQuery, [ip, path, method, req.user.nip , JSON.stringify(req.body)]);
-     
-      try {
-      const { rows, rowCount } = await db.query(findOneQuery, [ip, path, method, req.user.nip ,req.body]);
-		if (!rowCount) {
+
+    console.log(findOneQuery, [ip, path, method, req.user.nip, JSON.stringify(req.body)]);
+
+    try {
+      const { rows, rowCount } = await db.query(findOneQuery, [ip, path, method, req.user.nip, req.body]);
+      if (!rowCount) {
         return res.status(200).send({ 'RC': '05', 'message': 'Tidak ada Data' });
       } else {
         return res.status(200).send({ 'RC': '00', 'message': 'Sukses', rows });

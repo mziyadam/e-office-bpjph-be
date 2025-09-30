@@ -23,6 +23,10 @@ import Humas from './controllers/Humas';
 import Kepegawaian from './controllers/Kepegawaian';
 import Surat from './controllers/Surat';
 
+//NEW
+import Simpeg from './controllers/Simpeg';
+import GetTemplate from './controllers/crud_template/GetTemplate';
+
 
 var Multer = require("multer");
 var maxSize = 110971520;
@@ -262,7 +266,7 @@ app.get('/api/web/pusat/get_allowed_page/:user_kategori', Auth.verifyTokenWeb, A
 app.get('/api/web/pusat/master/usermanagement', Auth.verifyTokenWeb, General.getUsers);
 app.post('/api/web/pusat/master/usermanagement', Auth.verifyTokenWeb, General.usersCrud);
 app.post('/api/web/pusat/sendmailgeneral', Auth.verifyTokenWeb, General.sendMailgeneral);
-app.post('/api/web/sendmailgeneral', Key.verifyKeyWeb, General.sendMailPublicGeneral);
+Alamatapp.post('/api/web/sendmailgeneral', Key.verifyKeyWeb, General.sendMailPublicGeneral);
 
 
 
@@ -302,6 +306,244 @@ app.post('/api/web/master/daftar_pokja/crud',  Auth.verifyTokenWeb,Admin.crudDaf
 
 
 */
+
+//SIMPEG
+app.get("/api/simpeg/getTemplate", Auth.verifyTokenWeb,GetTemplate.get);
+
+//umum
+app.get('/api/simpeg/getUmum',  Auth.verifyTokenWeb,Simpeg.getUmum);
+app.put('/api/simpeg/putUmum',  Auth.verifyTokenWeb,Simpeg.putUmum);
+
+//alamat
+app.get('/api/simpeg/getAlamat',  Auth.verifyTokenWeb,Simpeg.getAlamat);
+app.put('/api/simpeg/putAlamat',  Auth.verifyTokenWeb,Simpeg.putAlamat);
+
+//data nomor
+app.get('/api/simpeg/getDataNomor',  Auth.verifyTokenWeb,Simpeg.getDataNomor);
+app.put('/api/simpeg/putDataNomor',  Auth.verifyTokenWeb,Simpeg.putDataNomor);
+
+//pekerjaan
+app.get('/api/simpeg/getPekerjaan',  Auth.verifyTokenWeb,Simpeg.getPekerjaan);
+//keluarga
+
+// Suami Istri
+app.get('/api/simpeg/getSuamiIstri', Auth.verifyTokenWeb, Simpeg.getSuamiIstri);
+app.get('/api/simpeg/getSuamiIstriEdit', Auth.verifyTokenWeb, Simpeg.getSuamiIstriEdit);
+app.post('/api/simpeg/postSuamiIstriEdit', Auth.verifyTokenWeb, Simpeg.postSuamiIstriEdit);
+app.post('/api/simpeg/postSuamiIstri', Auth.verifyTokenWeb, Simpeg.postSuamiIstri);   // added
+app.put('/api/simpeg/putSuamiIstriEdit', Auth.verifyTokenWeb, Simpeg.putSuamiIstriEdit);
+app.put('/api/simpeg/putSuamiIstri', Auth.verifyTokenWeb, Simpeg.putSuamiIstri);     // added
+app.delete('/api/simpeg/deleteSuamiIstriEdit', Auth.verifyTokenWeb, Simpeg.deleteSuamiIstriEdit);
+app.delete('/api/simpeg/deleteSuamiIstri', Auth.verifyTokenWeb, Simpeg.deleteSuamiIstri); // added
+
+// Anak
+app.get('/api/simpeg/getAnak', Auth.verifyTokenWeb, Simpeg.getAnak);
+app.get('/api/simpeg/getAnakEdit', Auth.verifyTokenWeb, Simpeg.getAnakEdit);
+app.post('/api/simpeg/postAnakEdit', Auth.verifyTokenWeb, Simpeg.postAnakEdit);
+app.post('/api/simpeg/postAnak', Auth.verifyTokenWeb, Simpeg.postAnak);   // added
+app.put('/api/simpeg/putAnakEdit', Auth.verifyTokenWeb, Simpeg.putAnakEdit);
+app.put('/api/simpeg/putAnak', Auth.verifyTokenWeb, Simpeg.putAnak);     // added
+app.delete('/api/simpeg/deleteAnakEdit', Auth.verifyTokenWeb, Simpeg.deleteAnakEdit);
+app.delete('/api/simpeg/deleteAnak', Auth.verifyTokenWeb, Simpeg.deleteAnak); // added
+
+// pendidikan
+app.get('/api/simpeg/getPendidikan', Auth.verifyTokenWeb, Simpeg.getPendidikan);
+app.get('/api/simpeg/getPendidikanEdit', Auth.verifyTokenWeb, Simpeg.getPendidikanEdit);
+app.post('/api/simpeg/postPendidikanEdit', Auth.verifyTokenWeb, Simpeg.postPendidikanEdit);
+app.post('/api/simpeg/postPendidikan', Auth.verifyTokenWeb, Simpeg.postPendidikan);   // added
+app.put('/api/simpeg/putPendidikanEdit', Auth.verifyTokenWeb, Simpeg.putPendidikanEdit);
+app.put('/api/simpeg/putPendidikan', Auth.verifyTokenWeb, Simpeg.putPendidikan);     // added
+app.delete('/api/simpeg/deletePendidikanEdit', Auth.verifyTokenWeb, Simpeg.deletePendidikanEdit);
+app.delete('/api/simpeg/deletePendidikan', Auth.verifyTokenWeb, Simpeg.deletePendidikan); // added
+
+// diklat
+app.get('/api/simpeg/getDiklat', Auth.verifyTokenWeb, Simpeg.getDiklat);
+app.get('/api/simpeg/getDiklatEdit', Auth.verifyTokenWeb, Simpeg.getDiklatEdit);
+app.post('/api/simpeg/postDiklatEdit', Auth.verifyTokenWeb, Simpeg.postDiklatEdit);
+app.post('/api/simpeg/postDiklat', Auth.verifyTokenWeb, Simpeg.postDiklat);          // added
+app.put('/api/simpeg/putDiklatEdit', Auth.verifyTokenWeb, Simpeg.putDiklatEdit);
+app.put('/api/simpeg/putDiklat', Auth.verifyTokenWeb, Simpeg.putDiklat);            // added
+app.delete('/api/simpeg/deleteDiklatEdit', Auth.verifyTokenWeb, Simpeg.deleteDiklatEdit);
+app.delete('/api/simpeg/deleteDiklat', Auth.verifyTokenWeb, Simpeg.deleteDiklat);   // added
+
+// pangkat
+app.get('/api/simpeg/getPangkat', Auth.verifyTokenWeb, Simpeg.getPangkat);
+app.get('/api/simpeg/getPangkatEdit', Auth.verifyTokenWeb, Simpeg.getPangkatEdit);
+app.post('/api/simpeg/postPangkatEdit', Auth.verifyTokenWeb, Simpeg.postPangkatEdit);
+app.post('/api/simpeg/postPangkat', Auth.verifyTokenWeb, Simpeg.postPangkat);          // added
+app.put('/api/simpeg/putPangkatEdit', Auth.verifyTokenWeb, Simpeg.putPangkatEdit);
+app.put('/api/simpeg/putPangkat', Auth.verifyTokenWeb, Simpeg.putPangkat);            // added
+app.delete('/api/simpeg/deletePangkatEdit', Auth.verifyTokenWeb, Simpeg.deletePangkatEdit);
+app.delete('/api/simpeg/deletePangkat', Auth.verifyTokenWeb, Simpeg.deletePangkat);   // added
+
+// jabatan
+app.get('/api/simpeg/getJabatan', Auth.verifyTokenWeb, Simpeg.getJabatan);
+app.get('/api/simpeg/getJabatanEdit', Auth.verifyTokenWeb, Simpeg.getJabatanEdit);
+app.post('/api/simpeg/postJabatanEdit', Auth.verifyTokenWeb, Simpeg.postJabatanEdit);
+app.post('/api/simpeg/postJabatan', Auth.verifyTokenWeb, Simpeg.postJabatan);          // added
+app.put('/api/simpeg/putJabatanEdit', Auth.verifyTokenWeb, Simpeg.putJabatanEdit);
+app.put('/api/simpeg/putJabatan', Auth.verifyTokenWeb, Simpeg.putJabatan);            // added
+app.delete('/api/simpeg/deleteJabatanEdit', Auth.verifyTokenWeb, Simpeg.deleteJabatanEdit);
+app.delete('/api/simpeg/deleteJabatan', Auth.verifyTokenWeb, Simpeg.deleteJabatan);   // added
+
+// pak
+app.get('/api/simpeg/getPak', Auth.verifyTokenWeb, Simpeg.getPak);
+app.get('/api/simpeg/getPakEdit', Auth.verifyTokenWeb, Simpeg.getPakEdit);
+app.post('/api/simpeg/postPakEdit', Auth.verifyTokenWeb, Simpeg.postPakEdit);
+app.post('/api/simpeg/postPak', Auth.verifyTokenWeb, Simpeg.postPak);                  // added
+app.put('/api/simpeg/putPakEdit', Auth.verifyTokenWeb, Simpeg.putPakEdit);
+app.put('/api/simpeg/putPak', Auth.verifyTokenWeb, Simpeg.putPak);                    // added
+app.delete('/api/simpeg/deletePakEdit', Auth.verifyTokenWeb, Simpeg.deletePakEdit);
+app.delete('/api/simpeg/deletePak', Auth.verifyTokenWeb, Simpeg.deletePak);           // added
+
+//penghargaan
+app.get('/api/simpeg/getPenghargaan',  Auth.verifyTokenWeb,Simpeg.getPenghargaan);
+app.get('/api/simpeg/getPenghargaanEdit',  Auth.verifyTokenWeb,Simpeg.getPenghargaanEdit);
+app.post('/api/simpeg/postPenghargaan', Auth.verifyTokenWeb, Simpeg.postPenghargaan);
+app.post('/api/simpeg/postPenghargaanEdit',  Auth.verifyTokenWeb,Simpeg.postPenghargaanEdit);
+app.put('/api/simpeg/putPenghargaan', Auth.verifyTokenWeb, Simpeg.putPenghargaan);
+app.put('/api/simpeg/putPenghargaanEdit',  Auth.verifyTokenWeb,Simpeg.putPenghargaanEdit);
+app.delete('/api/simpeg/deletePenghargaan', Auth.verifyTokenWeb, Simpeg.deletePenghargaan);
+app.delete('/api/simpeg/deletePenghargaanEdit',  Auth.verifyTokenWeb,Simpeg.deletePenghargaanEdit);
+
+// Pengalaman
+app.get('/api/simpeg/getPengalaman',  Auth.verifyTokenWeb, Simpeg.getPengalaman);
+app.get('/api/simpeg/getPengalamanEdit',  Auth.verifyTokenWeb, Simpeg.getPengalamanEdit);
+app.post('/api/simpeg/postPengalamanEdit',  Auth.verifyTokenWeb, Simpeg.postPengalamanEdit);
+app.post('/api/simpeg/postPengalaman',  Auth.verifyTokenWeb, Simpeg.postPengalaman);        // added
+app.put('/api/simpeg/putPengalamanEdit',  Auth.verifyTokenWeb, Simpeg.putPengalamanEdit);
+app.put('/api/simpeg/putPengalaman',  Auth.verifyTokenWeb, Simpeg.putPengalaman);           // added
+app.delete('/api/simpeg/deletePengalamanEdit',  Auth.verifyTokenWeb, Simpeg.deletePengalamanEdit);
+app.delete('/api/simpeg/deletePengalaman',  Auth.verifyTokenWeb, Simpeg.deletePengalaman);  // added
+
+// Organisasi
+app.get('/api/simpeg/getOrganisasi',  Auth.verifyTokenWeb, Simpeg.getOrganisasi);
+app.get('/api/simpeg/getOrganisasiEdit',  Auth.verifyTokenWeb, Simpeg.getOrganisasiEdit);
+app.post('/api/simpeg/postOrganisasiEdit',  Auth.verifyTokenWeb, Simpeg.postOrganisasiEdit);
+app.post('/api/simpeg/postOrganisasi',  Auth.verifyTokenWeb, Simpeg.postOrganisasi);        // added
+app.put('/api/simpeg/putOrganisasiEdit',  Auth.verifyTokenWeb, Simpeg.putOrganisasiEdit);
+app.put('/api/simpeg/putOrganisasi',  Auth.verifyTokenWeb, Simpeg.putOrganisasi);           // added
+app.delete('/api/simpeg/deleteOrganisasiEdit',  Auth.verifyTokenWeb, Simpeg.deleteOrganisasiEdit);
+app.delete('/api/simpeg/deleteOrganisasi',  Auth.verifyTokenWeb, Simpeg.deleteOrganisasi);  // added
+
+// Karya Tulis
+app.get('/api/simpeg/getKaryaTulis',      Auth.verifyTokenWeb, Simpeg.getKaryaTulis);
+app.get('/api/simpeg/getKaryaTulisEdit', Auth.verifyTokenWeb, Simpeg.getKaryaTulisEdit);
+app.post('/api/simpeg/postKaryaTulisEdit', Auth.verifyTokenWeb, Simpeg.postKaryaTulisEdit);
+app.post('/api/simpeg/postKaryaTulis',     Auth.verifyTokenWeb, Simpeg.postKaryaTulis);      // added
+app.put('/api/simpeg/putKaryaTulisEdit',   Auth.verifyTokenWeb, Simpeg.putKaryaTulisEdit);
+app.put('/api/simpeg/putKaryaTulis',       Auth.verifyTokenWeb, Simpeg.putKaryaTulis);       // added
+app.delete('/api/simpeg/deleteKaryaTulisEdit', Auth.verifyTokenWeb, Simpeg.deleteKaryaTulisEdit);
+app.delete('/api/simpeg/deleteKaryaTulis',     Auth.verifyTokenWeb, Simpeg.deleteKaryaTulis); // added
+
+// Sertifikasi
+app.get('/api/simpeg/getSertifikasi',      Auth.verifyTokenWeb, Simpeg.getSertifikasi);
+app.get('/api/simpeg/getSertifikasiEdit', Auth.verifyTokenWeb, Simpeg.getSertifikasiEdit);
+app.post('/api/simpeg/postSertifikasiEdit', Auth.verifyTokenWeb, Simpeg.postSertifikasiEdit);
+app.post('/api/simpeg/postSertifikasi',     Auth.verifyTokenWeb, Simpeg.postSertifikasi);      // added
+app.put('/api/simpeg/putSertifikasiEdit',   Auth.verifyTokenWeb, Simpeg.putSertifikasiEdit);
+app.put('/api/simpeg/putSertifikasi',       Auth.verifyTokenWeb, Simpeg.putSertifikasi);       // added
+app.delete('/api/simpeg/deleteSertifikasiEdit', Auth.verifyTokenWeb, Simpeg.deleteSertifikasiEdit);
+app.delete('/api/simpeg/deleteSertifikasi',     Auth.verifyTokenWeb, Simpeg.deleteSertifikasi); // added
+
+// KGB
+app.get('/api/simpeg/getKgb',      Auth.verifyTokenWeb, Simpeg.getKgb);
+app.get('/api/simpeg/getKgbEdit', Auth.verifyTokenWeb, Simpeg.getKgbEdit);
+app.post('/api/simpeg/postKgbEdit', Auth.verifyTokenWeb, Simpeg.postKgbEdit);
+app.post('/api/simpeg/postKgb',     Auth.verifyTokenWeb, Simpeg.postKgb);      // added
+app.put('/api/simpeg/putKgbEdit',   Auth.verifyTokenWeb, Simpeg.putKgbEdit);
+app.put('/api/simpeg/putKgb',       Auth.verifyTokenWeb, Simpeg.putKgb);       // added
+app.delete('/api/simpeg/deleteKgbEdit', Auth.verifyTokenWeb, Simpeg.deleteKgbEdit);
+app.delete('/api/simpeg/deleteKgb',     Auth.verifyTokenWeb, Simpeg.deleteKgb); // added
+
+// SKP
+app.get('/api/simpeg/getSkp',      Auth.verifyTokenWeb, Simpeg.getSkp);
+app.get('/api/simpeg/getSkpEdit', Auth.verifyTokenWeb, Simpeg.getSkpEdit);
+app.post('/api/simpeg/postSkpEdit', Auth.verifyTokenWeb, Simpeg.postSkpEdit);
+app.post('/api/simpeg/postSkp',     Auth.verifyTokenWeb, Simpeg.postSkp);      // added
+app.put('/api/simpeg/putSkpEdit',   Auth.verifyTokenWeb, Simpeg.putSkpEdit);
+app.put('/api/simpeg/putSkp',       Auth.verifyTokenWeb, Simpeg.putSkp);       // added
+app.delete('/api/simpeg/deleteSkpEdit', Auth.verifyTokenWeb, Simpeg.deleteSkpEdit);
+app.delete('/api/simpeg/deleteSkp',     Auth.verifyTokenWeb, Simpeg.deleteSkp); // added
+
+//PkgPkp
+app.get('/api/simpeg/getPkgPkp',        Auth.verifyTokenWeb, Simpeg.getPkgPkp);
+app.get('/api/simpeg/getPkgPkpEdit',    Auth.verifyTokenWeb, Simpeg.getPkgPkpEdit);
+app.post('/api/simpeg/postPkgPkpEdit',  Auth.verifyTokenWeb, Simpeg.postPkgPkpEdit);
+app.post('/api/simpeg/postPkgPkp',      Auth.verifyTokenWeb, Simpeg.postPkgPkp);       // added
+app.put('/api/simpeg/putPkgPkpEdit',    Auth.verifyTokenWeb, Simpeg.putPkgPkpEdit);
+app.put('/api/simpeg/putPkgPkp',        Auth.verifyTokenWeb, Simpeg.putPkgPkp);        // added
+app.delete('/api/simpeg/deletePkgPkpEdit', Auth.verifyTokenWeb, Simpeg.deletePkgPkpEdit);
+app.delete('/api/simpeg/deletePkgPkp',     Auth.verifyTokenWeb, Simpeg.deletePkgPkp);  // added
+
+//Penugasan
+app.get('/api/simpeg/getPenugasan',        Auth.verifyTokenWeb, Simpeg.getPenugasan);
+app.get('/api/simpeg/getPenugasanEdit',    Auth.verifyTokenWeb, Simpeg.getPenugasanEdit);
+app.post('/api/simpeg/postPenugasanEdit',  Auth.verifyTokenWeb, Simpeg.postPenugasanEdit);
+app.post('/api/simpeg/postPenugasan',      Auth.verifyTokenWeb, Simpeg.postPenugasan);       // added
+app.put('/api/simpeg/putPenugasanEdit',    Auth.verifyTokenWeb, Simpeg.putPenugasanEdit);
+app.put('/api/simpeg/putPenugasan',        Auth.verifyTokenWeb, Simpeg.putPenugasan);        // added
+app.delete('/api/simpeg/deletePenugasanEdit', Auth.verifyTokenWeb, Simpeg.deletePenugasanEdit);
+app.delete('/api/simpeg/deletePenugasan',     Auth.verifyTokenWeb, Simpeg.deletePenugasan);  // added
+
+//ADMIN DATA PEGAWAI
+//get all data
+app.get('/api/simpeg/getDataPegawai',  Auth.verifyTokenWeb,Simpeg.getDataPegawaiFull);
+
+//ket diri
+app.get('/api/simpeg/getKetDiri',  Auth.verifyTokenWeb,Simpeg.getKetDiri);
+app.put('/api/simpeg/putKetDiri',  Auth.verifyTokenWeb,Simpeg.putKetDiri);
+
+// Cltn
+app.get('/api/simpeg/getCltn',  Auth.verifyTokenWeb, Simpeg.getCltn);
+app.post('/api/simpeg/postCltn',  Auth.verifyTokenWeb, Simpeg.postCltn);
+app.put('/api/simpeg/putCltn',  Auth.verifyTokenWeb, Simpeg.putCltn);
+app.delete('/api/simpeg/deleteCltn',  Auth.verifyTokenWeb, Simpeg.deleteCltn);
+
+// Indisipliner
+app.get('/api/simpeg/getIndisipliner',  Auth.verifyTokenWeb, Simpeg.getIndisipliner);
+app.post('/api/simpeg/postIndisipliner',  Auth.verifyTokenWeb, Simpeg.postIndisipliner);
+app.put('/api/simpeg/putIndisipliner',  Auth.verifyTokenWeb, Simpeg.putIndisipliner);
+app.delete('/api/simpeg/deleteIndisipliner',  Auth.verifyTokenWeb, Simpeg.deleteIndisipliner);
+
+// Keluarga
+app.get('/api/simpeg/getKeluarga',  Auth.verifyTokenWeb, Simpeg.getKeluarga);
+app.post('/api/simpeg/postKeluarga',  Auth.verifyTokenWeb, Simpeg.postKeluarga);
+app.put('/api/simpeg/putKeluarga',  Auth.verifyTokenWeb, Simpeg.putKeluarga);
+app.delete('/api/simpeg/deleteKeluarga',  Auth.verifyTokenWeb, Simpeg.deleteKeluarga);
+
+// Penelitian
+app.get('/api/simpeg/getPenelitian',  Auth.verifyTokenWeb, Simpeg.getPenelitian);
+app.post('/api/simpeg/postPenelitian',  Auth.verifyTokenWeb, Simpeg.postPenelitian);
+app.put('/api/simpeg/putPenelitian',  Auth.verifyTokenWeb, Simpeg.putPenelitian);
+app.delete('/api/simpeg/deletePenelitian',  Auth.verifyTokenWeb, Simpeg.deletePenelitian);
+
+//VERIF PEGAWAI
+//get all data
+app.get('/api/simpeg/getListVerifPegawai',  Auth.verifyTokenWeb,Simpeg.getListVerifPegawai);
+app.get('/api/simpeg/getVerifPegawai',  Auth.verifyTokenWeb,Simpeg.getVerifPegawai);
+
+//VERIF
+// app.post('/api/simpeg/postKeluarga',  Auth.verifyTokenWeb, Simpeg.postKeluarga);
+app.post("/api/simpeg/verifTable", Auth.verifyTokenWeb, Simpeg.verifTable);
+
+//STAT
+
+// getStatPangkat
+// getStatJabatanFungsional
+// getStatJabatanStruktural
+// getStatJabatanStruktural
+// getStatJenisKelamin
+// getStatPendidikan
+// getStatUsia
+app.get('/api/simpeg/getStatAgama',  Auth.verifyTokenWeb,Simpeg.getStatAgama);
+app.get('/api/simpeg/getStatPangkat',  Auth.verifyTokenWeb,Simpeg.getStatPangkat);
+app.get('/api/simpeg/getStatJabatanFungsional',  Auth.verifyTokenWeb,Simpeg.getStatJabatanFungsional);
+app.get('/api/simpeg/getStatJabatanStruktural',  Auth.verifyTokenWeb,Simpeg.getStatJabatanStruktural);
+app.get('/api/simpeg/getStatJenisKelamin',  Auth.verifyTokenWeb,Simpeg.getStatJenisKelamin);
+app.get('/api/simpeg/getStatPendidikan',  Auth.verifyTokenWeb,Simpeg.getStatPendidikan);
+app.get('/api/simpeg/getStatUsia',  Auth.verifyTokenWeb,Simpeg.getStatUsia);
+
 var server = app.listen(3002);
 server.setTimeout(60000);
 
