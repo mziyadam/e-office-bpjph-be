@@ -385,28 +385,23 @@ const General = {
                   "icon": "far fa-user",
                   "type": "collapse",
                   "child": [
-                    {
-                      // "id": 602001,
-                      "href": "/admin_pegawai/data_pegawai",
-                      "icon": "typcn typcn-media-record",
-                      "type": "item",
-                      "title": "Admin Data Pegawai"
-                    },
-                    {
-                      // "id": 602001,
-                      "href": "/verif_pegawai/daftar_pegawai",
-                      "icon": "typcn typcn-media-record",
-                      "type": "item",
-                      "title": "Verifikasi Pegawai"
-                    },
-                    {
-                      // "id": 602001,
-                      "href": "/statspegawai",
-                      "icon": "typcn typcn-media-record",
-                      "type": "item",
-                      "title": "Statistik Pegawai"
-                    },
-                  ],
+  { href: "/master_data/Agama", icon: "typcn typcn-media-record", type: "item", title: "Master Agama" },
+  { href: "/master_data/SatuanKerja", icon: "typcn typcn-media-record", type: "item", title: "Master Satuan Kerja" },
+  { href: "/master_data/StatusKawin", icon: "typcn typcn-media-record", type: "item", title: "Master Status Kawin" },
+  { href: "/master_data/StatusAnak", icon: "typcn typcn-media-record", type: "item", title: "Master Status Anak" },
+  { href: "/master_data/JenjangPendidikan", icon: "typcn typcn-media-record", type: "item", title: "Master Jenjang Pendidikan" },
+  { href: "/master_data/JenisBidangStudi", icon: "typcn typcn-media-record", type: "item", title: "Master Jenis Bidang Studi" },
+  { href: "/master_data/TipeDiklat", icon: "typcn typcn-media-record", type: "item", title: "Master Tipe Diklat" },
+  { href: "/master_data/FakultasPendidikan", icon: "typcn typcn-media-record", type: "item", title: "Master Fakultas Pendidikan" },
+  { href: "/master_data/BidangStudi", icon: "typcn typcn-media-record", type: "item", title: "Master Bidang Studi" },
+  { href: "/master_data/Diklat", icon: "typcn typcn-media-record", type: "item", title: "Master Diklat" },
+  { href: "/master_data/Pangkat", icon: "typcn typcn-media-record", type: "item", title: "Master Pangkat" },
+  { href: "/master_data/JenisPegawai", icon: "typcn typcn-media-record", type: "item", title: "Master Jenis Pegawai" },
+  { href: "/master_data/StatusPegawai", icon: "typcn typcn-media-record", type: "item", title: "Master Status Pegawai" },
+  { href: "/master_data/TipeJabatan", icon: "typcn typcn-media-record", type: "item", title: "Master Tipe Jabatan" },
+  { href: "/master_data/LevelJabatan", icon: "typcn typcn-media-record", type: "item", title: "Master Level Jabatan" },
+  { href: "/master_data/Jabatan", icon: "typcn typcn-media-record", type: "item", title: "Master Jabatan" },
+],
                   "title": "Master Data",
                   "translate": "MASTER DATA"
                 }
