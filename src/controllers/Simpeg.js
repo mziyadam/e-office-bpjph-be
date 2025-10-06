@@ -8644,7 +8644,1569 @@ where
         } catch (error) {
             return res.status(400).send({ RC: "99", message: "Error", error });
         }
-    }
+    },
+
+    async getMasterAgama(req, res) {
+        const readQuery = `
+        SELECT a.*
+        FROM bpjph.tm_agama a
+    `;
+
+        try {
+            const { rows, rowCount } = await db.query(readQuery);
+            if (!rowCount) {
+                return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            }
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterAgama(req, res) {
+        const {
+            kode_agama,
+            agama,
+            user_add,
+            time_add,
+        } = req.body;
+
+        try {
+            // Insert new record
+            const insertQuery = `
+                INSERT INTO bpjph.tm_agama
+                (kode_agama, agama, 
+                 user_add, time_add, 
+                 user_update, time_update)
+                VALUES
+                ($1,$2,
+                 $3,$4,$3,$4)
+                RETURNING *;
+            `;
+
+            const values = [
+                kode_agama, agama,
+                user_add, time_add,
+            ];
+
+            const { rows } = await db.query(insertQuery, values);
+            return res.status(201).send({ RC: "00", message: "Insert Penelitian Success", data: rows[0] });
+        } catch (error) {
+            return res.status(400).send({ RC: "99", message: "Insert Penelitian Error", error });
+        }
+    },
+    async putMasterAgama(req, res) {
+        const {
+            kode_agama,
+            agama,
+            user_update,
+            time_update,
+        } = req.body;
+
+        try {
+            const updateQuery = `
+                UPDATE bpjph.tm_agama
+                SET
+                    agama = $2,
+                    user_update = $3,
+                    time_update = $4
+                WHERE kode_agama = $1
+                RETURNING *;
+            `;
+
+            const values = [
+                kode_agama, agama,
+                user_update, time_update,
+            ];
+
+            const { rows } = await db.query(updateQuery, values);
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record updated, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Update Penelitian Success", data: rows[0] });
+        } catch (error) {
+            return res.status(400).send({ RC: "99", message: "Update Penelitian Error", error });
+        }
+    },
+    async deleteMasterAgama(req, res) {
+        const { kode_agama } = req.body;
+
+        try {
+            const deleteQuery = `
+                DELETE FROM bpjph.tm_agama
+                WHERE kode_agama = $1
+                RETURNING *;
+            `;
+            const { rows } = await db.query(deleteQuery, [kode_agama]);
+
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record deleted, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Delete Penelitian Success", data: rows[0] });
+        } catch (error) {
+            return res.status(400).send({ RC: "99", message: "Delete Penelitian Error", error });
+        }
+    },
+
+    async getMasterSatuanKerja(req, res) {
+        const readQuery = `
+            SELECT *
+            FROM bpjph.tm_satuan_kerja
+            ORDER BY kode_satuan_kerja ASC;
+        `;
+
+        try {
+            const { rows, rowCount } = await db.query(readQuery);
+            if (!rowCount) {
+                return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            }
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterSatuanKerja(req, res) {
+        const {
+            kode_satuan_kerja,
+            kode_atasan,
+            satuan_kerja,
+            kode_lokasi,
+            keterangan_satuan_kerja,
+            kode_unit_kerja,
+            kode_unit_organisasi,
+            kode_grup_satuan_kerja,
+            user_add,
+            time_add,
+            user_update,
+            time_update,
+            jalan,
+            kelurahan,
+            kecamatan,
+            kab_kota,
+            provinsi,
+            kode_pos,
+            eselon,
+            f_pejabat,
+            dasar_hukum_ortaker,
+            pimpinan,
+            kode_kppn,
+            kode_taspen,
+            kode_kanreg,
+            program,
+            fungsi,
+            jenis_satker,
+            nsm,
+            npsn,
+            kode_kua,
+            lat,
+            lon,
+            grade,
+            kode_satker_keuangan,
+            id_bkn
+        } = req.body;
+
+        try {
+            const insertQuery = `
+                INSERT INTO bpjph.tm_satuan_kerja (
+                    kode_satuan_kerja, kode_atasan, satuan_kerja, kode_lokasi, keterangan_satuan_kerja,
+                    kode_unit_kerja, kode_unit_organisasi, kode_grup_satuan_kerja,
+                    user_add, time_add, user_update, time_update,
+                    jalan, kelurahan, kecamatan, kab_kota, provinsi, kode_pos,
+                    eselon, f_pejabat, dasar_hukum_ortaker, pimpinan,
+                    kode_kppn, kode_taspen, kode_kanreg, program, fungsi,
+                    jenis_satker, nsm, npsn, kode_kua, lat, lon, grade,
+                    kode_satker_keuangan, id_bkn
+                )
+                VALUES (
+                    $1,$2,$3,$4,$5,$6,$7,$8,
+                    $9,$10,$11,$12,
+                    $13,$14,$15,$16,$17,$18,
+                    $19,$20,$21,$22,
+                    $23,$24,$25,$26,$27,
+                    $28,$29,$30,$31,$32,$33,$34,
+                    $35,$36
+                )
+                RETURNING *;
+            `;
+
+            const values = [
+                kode_satuan_kerja, kode_atasan, satuan_kerja, kode_lokasi, keterangan_satuan_kerja,
+                kode_unit_kerja, kode_unit_organisasi, kode_grup_satuan_kerja,
+                user_add, time_add, user_update, time_update,
+                jalan, kelurahan, kecamatan, kab_kota, provinsi, kode_pos,
+                eselon, f_pejabat, dasar_hukum_ortaker, pimpinan,
+                kode_kppn, kode_taspen, kode_kanreg, program, fungsi,
+                jenis_satker, nsm, npsn, kode_kua, lat, lon, grade,
+                kode_satker_keuangan, id_bkn
+            ];
+
+            const { rows } = await db.query(insertQuery, values);
+            return res.status(201).send({ RC: "00", message: "Insert Satuan Kerja Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Satuan Kerja Error", error });
+        }
+    },
+    async putMasterSatuanKerja(req, res) {
+        const {
+            kode_satuan_kerja,
+            satuan_kerja,
+            kode_atasan,
+            kode_lokasi,
+            keterangan_satuan_kerja,
+            user_update,
+            time_update
+        } = req.body;
+
+        try {
+            const updateQuery = `
+                UPDATE bpjph.tm_satuan_kerja
+                SET
+                    satuan_kerja = $2,
+                    kode_atasan = $3,
+                    kode_lokasi = $4,
+                    keterangan_satuan_kerja = $5,
+                    user_update = $6,
+                    time_update = $7
+                WHERE kode_satuan_kerja = $1
+                RETURNING *;
+            `;
+
+            const values = [
+                kode_satuan_kerja,
+                satuan_kerja,
+                kode_atasan,
+                kode_lokasi,
+                keterangan_satuan_kerja,
+                user_update,
+                time_update
+            ];
+
+            const { rows } = await db.query(updateQuery, values);
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record updated, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Update Satuan Kerja Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Satuan Kerja Error", error });
+        }
+    },
+    async deleteMasterSatuanKerja(req, res) {
+        const { kode_satuan_kerja } = req.body;
+
+        try {
+            const deleteQuery = `
+                DELETE FROM bpjph.tm_satuan_kerja
+                WHERE kode_satuan_kerja = $1
+                RETURNING *;
+            `;
+            const { rows } = await db.query(deleteQuery, [kode_satuan_kerja]);
+
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record deleted, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Delete Satuan Kerja Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Satuan Kerja Error", error });
+        }
+    },
+
+    async getMasterStatusKawin(req, res) {
+        const readQuery = `
+            SELECT *
+            FROM bpjph.tm_status_kawin
+            ORDER BY kode_status_kawin ASC;
+        `;
+
+        try {
+            const { rows, rowCount } = await db.query(readQuery);
+            if (!rowCount) {
+                return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            }
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterStatusKawin(req, res) {
+        const {
+            kode_status_kawin,
+            status_kawin,
+            user_add,
+            time_add
+        } = req.body;
+
+        try {
+            const insertQuery = `
+                INSERT INTO bpjph.tm_status_kawin (
+                    kode_status_kawin, status_kawin,
+                    user_add, time_add,
+                    user_update, time_update
+                )
+                VALUES ($1, $2, $3, $4, $3, $4)
+                RETURNING *;
+            `;
+
+            const values = [
+                kode_status_kawin,
+                status_kawin,
+                user_add,
+                time_add
+            ];
+
+            const { rows } = await db.query(insertQuery, values);
+            return res.status(201).send({ RC: "00", message: "Insert Status Kawin Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Status Kawin Error", error });
+        }
+    },
+    async putMasterStatusKawin(req, res) {
+        const {
+            kode_status_kawin,
+            status_kawin,
+            user_update,
+            time_update
+        } = req.body;
+
+        try {
+            const updateQuery = `
+                UPDATE bpjph.tm_status_kawin
+                SET
+                    status_kawin = $2,
+                    user_update = $3,
+                    time_update = $4
+                WHERE kode_status_kawin = $1
+                RETURNING *;
+            `;
+
+            const values = [
+                kode_status_kawin,
+                status_kawin,
+                user_update,
+                time_update
+            ];
+
+            const { rows } = await db.query(updateQuery, values);
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record updated, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Update Status Kawin Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Status Kawin Error", error });
+        }
+    },
+    async deleteMasterStatusKawin(req, res) {
+        const { kode_status_kawin } = req.body;
+
+        try {
+            const deleteQuery = `
+                DELETE FROM bpjph.tm_status_kawin
+                WHERE kode_status_kawin = $1
+                RETURNING *;
+            `;
+
+            const { rows } = await db.query(deleteQuery, [kode_status_kawin]);
+
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record deleted, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Delete Status Kawin Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Status Kawin Error", error });
+        }
+    },
+
+    async getMasterStatusAnak(req, res) {
+        const readQuery = `
+        SELECT *
+        FROM bpjph.tm_status_anak
+        ORDER BY kode_status_anak ASC;
+    `;
+
+        try {
+            const { rows, rowCount } = await db.query(readQuery);
+            if (!rowCount) {
+                return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            }
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterStatusAnak(req, res) {
+        const {
+            kode_status_anak,
+            status_anak,
+            user_add,
+            time_add
+        } = req.body;
+
+        try {
+            const insertQuery = `
+            INSERT INTO bpjph.tm_status_anak (
+                kode_status_anak, status_anak,
+                user_add, time_add,
+                user_update, time_update
+            )
+            VALUES ($1, $2, $3, $4, $3, $4)
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_status_anak,
+                status_anak,
+                user_add,
+                time_add
+            ];
+
+            const { rows } = await db.query(insertQuery, values);
+            return res.status(201).send({ RC: "00", message: "Insert Status Anak Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Status Anak Error", error });
+        }
+    },
+    async putMasterStatusAnak(req, res) {
+        const {
+            kode_status_anak,
+            status_anak,
+            user_update,
+            time_update
+        } = req.body;
+
+        try {
+            const updateQuery = `
+            UPDATE bpjph.tm_status_anak
+            SET
+                status_anak = $2,
+                user_update = $3,
+                time_update = $4
+            WHERE kode_status_anak = $1
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_status_anak,
+                status_anak,
+                user_update,
+                time_update
+            ];
+
+            const { rows } = await db.query(updateQuery, values);
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record updated, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Update Status Anak Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Status Anak Error", error });
+        }
+    },
+    async deleteMasterStatusAnak(req, res) {
+        const { kode_status_anak } = req.body;
+
+        try {
+            const deleteQuery = `
+            DELETE FROM bpjph.tm_status_anak
+            WHERE kode_status_anak = $1
+            RETURNING *;
+        `;
+
+            const { rows } = await db.query(deleteQuery, [kode_status_anak]);
+
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record deleted, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Delete Status Anak Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Status Anak Error", error });
+        }
+    },
+
+    async getMasterJenjangPendidikan(req, res) {
+        const readQuery = `
+        SELECT *
+        FROM bpjph.tm_jenjang_pendidikan
+        ORDER BY kode_jenjang_pendidikan ASC;
+    `;
+
+        try {
+            const { rows, rowCount } = await db.query(readQuery);
+            if (!rowCount) {
+                return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            }
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterJenjangPendidikan(req, res) {
+        const {
+            kode_jenjang_pendidikan,
+            jenjang_pendidikan,
+            akta,
+            user_add,
+            time_add
+        } = req.body;
+
+        try {
+            const insertQuery = `
+            INSERT INTO bpjph.tm_jenjang_pendidikan (
+                kode_jenjang_pendidikan, jenjang_pendidikan, akta,
+                user_add, time_add,
+                user_update, time_update
+            )
+            VALUES ($1, $2, $3, $4, $5, $4, $5)
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_jenjang_pendidikan,
+                jenjang_pendidikan,
+                akta,
+                user_add,
+                time_add
+            ];
+
+            const { rows } = await db.query(insertQuery, values);
+            return res.status(201).send({ RC: "00", message: "Insert Jenjang Pendidikan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Jenjang Pendidikan Error", error });
+        }
+    },
+    async putMasterJenjangPendidikan(req, res) {
+        const {
+            kode_jenjang_pendidikan,
+            jenjang_pendidikan,
+            akta,
+            user_update,
+            time_update
+        } = req.body;
+
+        try {
+            const updateQuery = `
+            UPDATE bpjph.tm_jenjang_pendidikan
+            SET
+                jenjang_pendidikan = $2,
+                akta = $3,
+                user_update = $4,
+                time_update = $5
+            WHERE kode_jenjang_pendidikan = $1
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_jenjang_pendidikan,
+                jenjang_pendidikan,
+                akta,
+                user_update,
+                time_update
+            ];
+
+            const { rows } = await db.query(updateQuery, values);
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record updated, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Update Jenjang Pendidikan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Jenjang Pendidikan Error", error });
+        }
+    },
+    async deleteMasterJenjangPendidikan(req, res) {
+        const { kode_jenjang_pendidikan } = req.body;
+
+        try {
+            const deleteQuery = `
+            DELETE FROM bpjph.tm_jenjang_pendidikan
+            WHERE kode_jenjang_pendidikan = $1
+            RETURNING *;
+        `;
+
+            const { rows } = await db.query(deleteQuery, [kode_jenjang_pendidikan]);
+
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record deleted, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Delete Jenjang Pendidikan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Jenjang Pendidikan Error", error });
+        }
+    },
+
+    async getMasterJenisBidangStudi(req, res) {
+        const readQuery = `
+        SELECT *
+        FROM bpjph.tm_jenis_bidang_studi
+        ORDER BY kode_jenis_bidang_studi ASC;
+    `;
+
+        try {
+            const { rows, rowCount } = await db.query(readQuery);
+            if (!rowCount) {
+                return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            }
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterJenisBidangStudi(req, res) {
+        const {
+            kode_jenis_bidang_studi,
+            jenis_bidang_studi,
+            user_add,
+            time_add
+        } = req.body;
+
+        try {
+            const insertQuery = `
+            INSERT INTO bpjph.tm_jenis_bidang_studi (
+                kode_jenis_bidang_studi, jenis_bidang_studi,
+                user_add, time_add,
+                user_update, time_update
+            )
+            VALUES ($1, $2, $3, $4, $3, $4)
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_jenis_bidang_studi,
+                jenis_bidang_studi,
+                user_add,
+                time_add
+            ];
+
+            const { rows } = await db.query(insertQuery, values);
+            return res.status(201).send({ RC: "00", message: "Insert Jenis Bidang Studi Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Jenis Bidang Studi Error", error });
+        }
+    },
+    async putMasterJenisBidangStudi(req, res) {
+        const {
+            kode_jenis_bidang_studi,
+            jenis_bidang_studi,
+            user_update,
+            time_update
+        } = req.body;
+
+        try {
+            const updateQuery = `
+            UPDATE bpjph.tm_jenis_bidang_studi
+            SET
+                jenis_bidang_studi = $2,
+                user_update = $3,
+                time_update = $4
+            WHERE kode_jenis_bidang_studi = $1
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_jenis_bidang_studi,
+                jenis_bidang_studi,
+                user_update,
+                time_update
+            ];
+
+            const { rows } = await db.query(updateQuery, values);
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record updated, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Update Jenis Bidang Studi Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Jenis Bidang Studi Error", error });
+        }
+    },
+    async deleteMasterJenisBidangStudi(req, res) {
+        const { kode_jenis_bidang_studi } = req.body;
+
+        try {
+            const deleteQuery = `
+            DELETE FROM bpjph.tm_jenis_bidang_studi
+            WHERE kode_jenis_bidang_studi = $1
+            RETURNING *;
+        `;
+
+            const { rows } = await db.query(deleteQuery, [kode_jenis_bidang_studi]);
+
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record deleted, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Delete Jenis Bidang Studi Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Jenis Bidang Studi Error", error });
+        }
+    },
+
+    async getMasterTipeDiklat(req, res) {
+        const readQuery = `
+        SELECT *
+        FROM bpjph.tm_tipe_diklat
+        ORDER BY kode_tipe_diklat ASC;
+    `;
+
+        try {
+            const { rows, rowCount } = await db.query(readQuery);
+            if (!rowCount) {
+                return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            }
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterTipeDiklat(req, res) {
+        const {
+            kode_tipe_diklat,
+            tipe_diklat,
+            user_add,
+            time_add
+        } = req.body;
+
+        try {
+            const insertQuery = `
+            INSERT INTO bpjph.tm_tipe_diklat (
+                kode_tipe_diklat, tipe_diklat,
+                user_add, time_add,
+                user_update, time_update
+            )
+            VALUES ($1, $2, $3, $4, $3, $4)
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_tipe_diklat,
+                tipe_diklat,
+                user_add,
+                time_add
+            ];
+
+            const { rows } = await db.query(insertQuery, values);
+            return res.status(201).send({ RC: "00", message: "Insert Tipe Diklat Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Tipe Diklat Error", error });
+        }
+    },
+    async putMasterTipeDiklat(req, res) {
+        const {
+            kode_tipe_diklat,
+            tipe_diklat,
+            user_update,
+            time_update
+        } = req.body;
+
+        try {
+            const updateQuery = `
+            UPDATE bpjph.tm_tipe_diklat
+            SET
+                tipe_diklat = $2,
+                user_update = $3,
+                time_update = $4
+            WHERE kode_tipe_diklat = $1
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_tipe_diklat,
+                tipe_diklat,
+                user_update,
+                time_update
+            ];
+
+            const { rows } = await db.query(updateQuery, values);
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record updated, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Update Tipe Diklat Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Tipe Diklat Error", error });
+        }
+    },
+    async deleteMasterTipeDiklat(req, res) {
+        const { kode_tipe_diklat } = req.body;
+
+        try {
+            const deleteQuery = `
+            DELETE FROM bpjph.tm_tipe_diklat
+            WHERE kode_tipe_diklat = $1
+            RETURNING *;
+        `;
+
+            const { rows } = await db.query(deleteQuery, [kode_tipe_diklat]);
+
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record deleted, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Delete Tipe Diklat Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Tipe Diklat Error", error });
+        }
+    },
+
+    async getMasterFakultasPendidikan(req, res) {
+        const readQuery = `
+            SELECT *
+            FROM bpjph.tm_fakultas_pendidikan
+            ORDER BY kode_fakultas_pendidikan ASC;
+        `;
+
+        try {
+            const { rows, rowCount } = await db.query(readQuery);
+            if (!rowCount) {
+                return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            }
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterFakultasPendidikan(req, res) {
+        const {
+            kode_fakultas_pendidikan,
+            fakultas_pendidikan,
+            user_add,
+            time_add
+        } = req.body;
+
+        try {
+            const insertQuery = `
+                INSERT INTO bpjph.tm_fakultas_pendidikan (
+                    kode_fakultas_pendidikan, fakultas_pendidikan,
+                    user_add, time_add,
+                    user_update, time_update
+                )
+                VALUES ($1, $2, $3, $4, $3, $4)
+                RETURNING *;
+            `;
+
+            const values = [
+                kode_fakultas_pendidikan,
+                fakultas_pendidikan,
+                user_add,
+                time_add
+            ];
+
+            const { rows } = await db.query(insertQuery, values);
+            return res.status(201).send({ RC: "00", message: "Insert Fakultas Pendidikan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Fakultas Pendidikan Error", error });
+        }
+    },
+    async putMasterFakultasPendidikan(req, res) {
+        const {
+            kode_fakultas_pendidikan,
+            fakultas_pendidikan,
+            user_update,
+            time_update
+        } = req.body;
+
+        try {
+            const updateQuery = `
+                UPDATE bpjph.tm_fakultas_pendidikan
+                SET
+                    fakultas_pendidikan = $2,
+                    user_update = $3,
+                    time_update = $4
+                WHERE kode_fakultas_pendidikan = $1
+                RETURNING *;
+            `;
+
+            const values = [
+                kode_fakultas_pendidikan,
+                fakultas_pendidikan,
+                user_update,
+                time_update
+            ];
+
+            const { rows } = await db.query(updateQuery, values);
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record updated, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Update Fakultas Pendidikan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Fakultas Pendidikan Error", error });
+        }
+    },
+    async deleteMasterFakultasPendidikan(req, res) {
+        const { kode_fakultas_pendidikan } = req.body;
+
+        try {
+            const deleteQuery = `
+                DELETE FROM bpjph.tm_fakultas_pendidikan
+                WHERE kode_fakultas_pendidikan = $1
+                RETURNING *;
+            `;
+
+            const { rows } = await db.query(deleteQuery, [kode_fakultas_pendidikan]);
+
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record deleted, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Delete Fakultas Pendidikan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Fakultas Pendidikan Error", error });
+        }
+    },
+
+    async getMasterBidangStudi(req, res) {
+        const query = `
+        SELECT a.*,b.jenis_bidang_studi
+        FROM bpjph.tm_bidang_studi a
+        LEFT JOIN bpjph.tm_jenis_bidang_studi b
+        on a.kode_jenis_bidang_studi=b.kode_jenis_bidang_studi
+        ORDER BY a.kode_bidang_studi ASC;
+    `;
+        try {
+            const { rows, rowCount } = await db.query(query);
+            if (!rowCount) return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterBidangStudi(req, res) {
+        const { kode_bidang_studi, kode_jenis_bidang_studi, bidang_studi, user_add, time_add } = req.body;
+        try {
+            const query = `
+            INSERT INTO bpjph.tm_bidang_studi (
+                kode_bidang_studi, kode_jenis_bidang_studi, bidang_studi,
+                user_add, time_add, user_update, time_update
+            )
+            VALUES ($1,$2,$3,$4,$5,$4,$5)
+            RETURNING *;
+        `;
+            const values = [kode_bidang_studi, kode_jenis_bidang_studi, bidang_studi, user_add, time_add];
+            const { rows } = await db.query(query, values);
+            return res.status(201).send({ RC: "00", message: "Insert Bidang Studi Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Bidang Studi Error", error });
+        }
+    },
+    async putMasterBidangStudi(req, res) {
+        const { kode_bidang_studi, kode_jenis_bidang_studi, bidang_studi, user_update, time_update } = req.body;
+        try {
+            const query = `
+            UPDATE bpjph.tm_bidang_studi
+            SET kode_jenis_bidang_studi=$2, bidang_studi=$3, user_update=$4, time_update=$5
+            WHERE kode_bidang_studi=$1
+            RETURNING *;
+        `;
+            const values = [kode_bidang_studi, kode_jenis_bidang_studi, bidang_studi, user_update, time_update];
+            const { rows } = await db.query(query, values);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Update Bidang Studi Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Bidang Studi Error", error });
+        }
+    },
+    async deleteMasterBidangStudi(req, res) {
+        const { kode_bidang_studi } = req.body;
+        try {
+            const query = `DELETE FROM bpjph.tm_bidang_studi WHERE kode_bidang_studi=$1 RETURNING *;`;
+            const { rows } = await db.query(query, [kode_bidang_studi]);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Delete Bidang Studi Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Bidang Studi Error", error });
+        }
+    },
+
+    async getMasterDiklat(req, res) {
+        const query = `SELECT a.*,b.tipe_diklat FROM bpjph.tm_diklat a
+        LEFT JOIN bpjph.tm_tipe_diklat b 
+        on a.kode_tipe_diklat=b.kode_tipe_diklat
+         ORDER BY a.kode_diklat ASC;`;
+        try {
+            const { rows, rowCount } = await db.query(query);
+            if (!rowCount) return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterDiklat(req, res) {
+        const { kode_diklat, kode_tipe_diklat, diklat, id_diklat_bkn, user_add, time_add } = req.body;
+        try {
+            const query = `
+            INSERT INTO bpjph.tm_diklat (
+                kode_diklat, kode_tipe_diklat, diklat, id_diklat_bkn,
+                user_add, time_add, user_update, time_update
+            ) VALUES ($1,$2,$3,$4,$5,$6,$5,$6)
+            RETURNING *;
+        `;
+            const values = [kode_diklat, kode_tipe_diklat, diklat, id_diklat_bkn, user_add, time_add];
+            const { rows } = await db.query(query, values);
+            return res.status(201).send({ RC: "00", message: "Insert Diklat Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Diklat Error", error });
+        }
+    },
+    async putMasterDiklat(req, res) {
+        const { kode_diklat, kode_tipe_diklat, diklat, id_diklat_bkn, user_update, time_update } = req.body;
+        try {
+            const query = `
+            UPDATE bpjph.tm_diklat
+            SET kode_tipe_diklat=$2, diklat=$3, id_diklat_bkn=$4, user_update=$5, time_update=$6
+            WHERE kode_diklat=$1
+            RETURNING *;
+        `;
+            const values = [kode_diklat, kode_tipe_diklat, diklat, id_diklat_bkn, user_update, time_update];
+            const { rows } = await db.query(query, values);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Update Diklat Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Diklat Error", error });
+        }
+    },
+    async deleteMasterDiklat(req, res) {
+        const { kode_diklat } = req.body;
+        try {
+            const query = `DELETE FROM bpjph.tm_diklat WHERE kode_diklat=$1 RETURNING *;`;
+            const { rows } = await db.query(query, [kode_diklat]);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Delete Diklat Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Diklat Error", error });
+        }
+    },
+
+    async getMasterPangkat(req, res) {
+        const query = `SELECT * FROM bpjph.tm_pangkat ORDER BY kode_pangkat ASC;`;
+        try {
+            const { rows, rowCount } = await db.query(query);
+            if (!rowCount) return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterPangkat(req, res) {
+        const { kode_pangkat, pangkat, gol_ruang, gol_pppk, user_add, time_add } = req.body;
+        try {
+            const query = `
+            INSERT INTO bpjph.tm_pangkat (
+                kode_pangkat, pangkat, gol_ruang, gol_pppk,
+                user_add, time_add, user_update, time_update
+            )
+            VALUES ($1,$2,$3,$4,$5,$6,$5,$6)
+            RETURNING *;
+        `;
+            const values = [kode_pangkat, pangkat, gol_ruang, gol_pppk, user_add, time_add];
+            const { rows } = await db.query(query, values);
+            return res.status(201).send({ RC: "00", message: "Insert Pangkat Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Pangkat Error", error });
+        }
+    },
+    async putMasterPangkat(req, res) {
+        const { kode_pangkat, pangkat, gol_ruang, gol_pppk, user_update, time_update } = req.body;
+        try {
+            const query = `
+            UPDATE bpjph.tm_pangkat
+            SET pangkat=$2, gol_ruang=$3, gol_pppk=$4, user_update=$5, time_update=$6
+            WHERE kode_pangkat=$1
+            RETURNING *;
+        `;
+            const values = [kode_pangkat, pangkat, gol_ruang, gol_pppk, user_update, time_update];
+            const { rows } = await db.query(query, values);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Update Pangkat Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Pangkat Error", error });
+        }
+    },
+    async deleteMasterPangkat(req, res) {
+        const { kode_pangkat } = req.body;
+        try {
+            const query = `DELETE FROM bpjph.tm_pangkat WHERE kode_pangkat=$1 RETURNING *;`;
+            const { rows } = await db.query(query, [kode_pangkat]);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Delete Pangkat Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Pangkat Error", error });
+        }
+    },
+
+    async getMasterJenisPegawai(req, res) {
+        const query = `SELECT * FROM bpjph.tm_jenis_pegawai ORDER BY kode_jenis_pegawai ASC;`;
+        try {
+            const { rows, rowCount } = await db.query(query);
+            if (!rowCount) return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterJenisPegawai(req, res) {
+        const { kode_jenis_pegawai, jenis_pegawai, user_add, time_add } = req.body;
+        try {
+            const query = `
+            INSERT INTO bpjph.tm_jenis_pegawai (
+                kode_jenis_pegawai, jenis_pegawai,
+                user_add, time_add, user_update, time_update
+            )
+            VALUES ($1,$2,$3,$4,$3,$4)
+            RETURNING *;
+        `;
+            const values = [kode_jenis_pegawai, jenis_pegawai, user_add, time_add];
+            const { rows } = await db.query(query, values);
+            return res.status(201).send({ RC: "00", message: "Insert Jenis Pegawai Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Jenis Pegawai Error", error });
+        }
+    },
+    async putMasterJenisPegawai(req, res) {
+        const { kode_jenis_pegawai, jenis_pegawai, user_update, time_update } = req.body;
+        try {
+            const query = `
+            UPDATE bpjph.tm_jenis_pegawai
+            SET jenis_pegawai=$2, user_update=$3, time_update=$4
+            WHERE kode_jenis_pegawai=$1
+            RETURNING *;
+        `;
+            const values = [kode_jenis_pegawai, jenis_pegawai, user_update, time_update];
+            const { rows } = await db.query(query, values);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Update Jenis Pegawai Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Jenis Pegawai Error", error });
+        }
+    },
+    async deleteMasterJenisPegawai(req, res) {
+        const { kode_jenis_pegawai } = req.body;
+        try {
+            const query = `DELETE FROM bpjph.tm_jenis_pegawai WHERE kode_jenis_pegawai=$1 RETURNING *;`;
+            const { rows } = await db.query(query, [kode_jenis_pegawai]);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Delete Jenis Pegawai Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Jenis Pegawai Error", error });
+        }
+    },
+
+    async getMasterStatusPegawai(req, res) {
+        const query = `SELECT * FROM bpjph.tm_status_pegawai ORDER BY kode_status_pegawai ASC;`;
+        try {
+            const { rows, rowCount } = await db.query(query);
+            if (!rowCount) return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterStatusPegawai(req, res) {
+        const { kode_status_pegawai, status_pegawai, user_add, time_add } = req.body;
+        try {
+            const query = `
+            INSERT INTO bpjph.tm_status_pegawai (
+                kode_status_pegawai, status_pegawai,
+                user_add, time_add, user_update, time_update
+            )
+            VALUES ($1,$2,$3,$4,$3,$4)
+            RETURNING *;
+        `;
+            const values = [kode_status_pegawai, status_pegawai, user_add, time_add];
+            const { rows } = await db.query(query, values);
+            return res.status(201).send({ RC: "00", message: "Insert Status Pegawai Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Status Pegawai Error", error });
+        }
+    },
+    async putMasterStatusPegawai(req, res) {
+        const { kode_status_pegawai, status_pegawai, user_update, time_update } = req.body;
+        try {
+            const query = `
+            UPDATE bpjph.tm_status_pegawai
+            SET status_pegawai=$2, user_update=$3, time_update=$4
+            WHERE kode_status_pegawai=$1
+            RETURNING *;
+        `;
+            const values = [kode_status_pegawai, status_pegawai, user_update, time_update];
+            const { rows } = await db.query(query, values);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Update Status Pegawai Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Status Pegawai Error", error });
+        }
+    },
+    async deleteMasterStatusPegawai(req, res) {
+        const { kode_status_pegawai } = req.body;
+        try {
+            const query = `DELETE FROM bpjph.tm_status_pegawai WHERE kode_status_pegawai=$1 RETURNING *;`;
+            const { rows } = await db.query(query, [kode_status_pegawai]);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Delete Status Pegawai Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Status Pegawai Error", error });
+        }
+    },
+
+    async getMasterTipeJabatan(req, res) {
+        const readQuery = `
+        SELECT *
+        FROM bpjph.tm_tipe_jabatan
+        ORDER BY kode_tipe_jabatan ASC;
+    `;
+
+        try {
+            const { rows, rowCount } = await db.query(readQuery);
+            if (!rowCount) {
+                return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            }
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterTipeJabatan(req, res) {
+        const {
+            kode_tipe_jabatan,
+            tipe_jabatan,
+            user_add,
+            time_add
+        } = req.body;
+
+        try {
+            const insertQuery = `
+            INSERT INTO bpjph.tm_tipe_jabatan (
+                kode_tipe_jabatan, tipe_jabatan,
+                user_add, time_add,
+                user_update, time_update
+            )
+            VALUES ($1, $2, $3, $4, $3, $4)
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_tipe_jabatan,
+                tipe_jabatan,
+                user_add,
+                time_add
+            ];
+
+            const { rows } = await db.query(insertQuery, values);
+            return res.status(201).send({ RC: "00", message: "Insert Tipe Jabatan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Tipe Jabatan Error", error });
+        }
+    },
+    async putMasterTipeJabatan(req, res) {
+        const {
+            kode_tipe_jabatan,
+            tipe_jabatan,
+            user_update,
+            time_update
+        } = req.body;
+
+        try {
+            const updateQuery = `
+            UPDATE bpjph.tm_tipe_jabatan
+            SET
+                tipe_jabatan = $2,
+                user_update = $3,
+                time_update = $4
+            WHERE kode_tipe_jabatan = $1
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_tipe_jabatan,
+                tipe_jabatan,
+                user_update,
+                time_update
+            ];
+
+            const { rows } = await db.query(updateQuery, values);
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record updated, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Update Tipe Jabatan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Tipe Jabatan Error", error });
+        }
+    },
+    async deleteMasterTipeJabatan(req, res) {
+        const { kode_tipe_jabatan } = req.body;
+
+        try {
+            const deleteQuery = `
+            DELETE FROM bpjph.tm_tipe_jabatan
+            WHERE kode_tipe_jabatan = $1
+            RETURNING *;
+        `;
+
+            const { rows } = await db.query(deleteQuery, [kode_tipe_jabatan]);
+
+            if (!rows.length) {
+                return res.status(404).send({ RC: "06", message: "No record deleted, record not found" });
+            }
+
+            return res.status(200).send({ RC: "00", message: "Delete Tipe Jabatan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Tipe Jabatan Error", error });
+        }
+    },
+
+    async getMasterLevelJabatan(req, res) {
+        const query = `SELECT a.*,b.tipe_jabatan 
+        FROM bpjph.tm_level_jabatan a
+        LEFT JOIN bpjph.tm_tipe_jabatan b on
+        a.kode_tipe_jabatan=b.kode_tipe_jabatan
+         ORDER BY a.kode_level_jabatan ASC;`;
+        try {
+            const { rows, rowCount } = await db.query(query);
+            if (!rowCount) return res.status(404).send({ RC: "05", message: "Data Not Found" });
+            return res.status(200).send({ RC: "00", message: "Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Error", error });
+        }
+    },
+    async postMasterLevelJabatan(req, res) {
+        const { kode_level_jabatan, kode_tipe_jabatan, level_jabatan, dasar_hukum_jabatan, dasar_hukum_tunjangan, user_add, time_add } = req.body;
+        try {
+            const query = `
+            INSERT INTO bpjph.tm_level_jabatan (
+                kode_level_jabatan, kode_tipe_jabatan, level_jabatan,
+                dasar_hukum_jabatan, dasar_hukum_tunjangan,
+                user_add, time_add, user_update, time_update
+            ) VALUES ($1,$2,$3,$4,$5,$6,$7,$6,$7)
+            RETURNING *;
+        `;
+            const values = [kode_level_jabatan, kode_tipe_jabatan, level_jabatan, dasar_hukum_jabatan, dasar_hukum_tunjangan, user_add, time_add];
+            const { rows } = await db.query(query, values);
+            return res.status(201).send({ RC: "00", message: "Insert Level Jabatan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Level Jabatan Error", error });
+        }
+    },
+    async putMasterLevelJabatan(req, res) {
+        const { kode_level_jabatan, kode_tipe_jabatan, level_jabatan, dasar_hukum_jabatan, dasar_hukum_tunjangan, user_update, time_update } = req.body;
+        try {
+            const query = `
+            UPDATE bpjph.tm_level_jabatan
+            SET kode_tipe_jabatan=$2, level_jabatan=$3, dasar_hukum_jabatan=$4,
+                dasar_hukum_tunjangan=$5, user_update=$6, time_update=$7
+            WHERE kode_level_jabatan=$1
+            RETURNING *;
+        `;
+            const values = [kode_level_jabatan, kode_tipe_jabatan, level_jabatan, dasar_hukum_jabatan, dasar_hukum_tunjangan, user_update, time_update];
+            const { rows } = await db.query(query, values);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Update Level Jabatan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Level Jabatan Error", error });
+        }
+    },
+    async deleteMasterLevelJabatan(req, res) {
+        const { kode_level_jabatan } = req.body;
+        try {
+            const query = `DELETE FROM bpjph.tm_level_jabatan WHERE kode_level_jabatan=$1 RETURNING *;`;
+            const { rows } = await db.query(query, [kode_level_jabatan]);
+            if (!rows.length) return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Delete Level Jabatan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Level Jabatan Error", error });
+        }
+    },
+
+    async getMasterJabatan(req, res) {
+        try {
+            const query = `SELECT a.*,b.level_jabatan
+         FROM bpjph.tm_jabatan a 
+         LEFT JOIN bpjph.tm_level_jabatan b
+         on a.kode_level_jabatan=b.kode_level_jabatan
+         ORDER BY a.kode_jabatan ASC`;
+            const { rows } = await db.query(query);
+            return res.status(200).send({ RC: "00", message: "Get Jabatan Success", data: rows });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Get Jabatan Error", error });
+        }
+    },
+    async postMasterJabatan(req, res) {
+        const {
+            kode_jabatan,
+            kode_level_jabatan,
+            jabatan,
+            tampil_jabatan,
+            usia_pensiun,
+            tunjangan,
+            kode_jenjang_pendidikan,
+            user_add,
+            time_add,
+            user_update,
+            time_update,
+            kel_jabatan,
+            tunjangan_terbilang,
+            kode_tingkat_jabatan
+        } = req.body;
+
+        try {
+            const query = `
+            INSERT INTO bpjph.tm_jabatan (
+                kode_jabatan, kode_level_jabatan, jabatan, tampil_jabatan,
+                usia_pensiun, tunjangan, kode_jenjang_pendidikan,
+                user_add, time_add, user_update, time_update,
+                kel_jabatan, tunjangan_terbilang, kode_tingkat_jabatan
+            ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_jabatan, kode_level_jabatan, jabatan, tampil_jabatan,
+                usia_pensiun, tunjangan, kode_jenjang_pendidikan,
+                user_add, time_add, user_update, time_update,
+                kel_jabatan, tunjangan_terbilang, kode_tingkat_jabatan
+            ];
+
+            const { rows } = await db.query(query, values);
+            return res.status(201).send({ RC: "00", message: "Insert Jabatan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Insert Jabatan Error", error });
+        }
+    },
+    async putMasterJabatan(req, res) {
+        const {
+            kode_jabatan,
+            kode_level_jabatan,
+            jabatan,
+            tampil_jabatan,
+            usia_pensiun,
+            tunjangan,
+            kode_jenjang_pendidikan,
+            user_update,
+            time_update,
+            kel_jabatan,
+            tunjangan_terbilang,
+            kode_tingkat_jabatan
+        } = req.body;
+
+        try {
+            const query = `
+            UPDATE bpjph.tm_jabatan
+            SET 
+                kode_level_jabatan=$2,
+                jabatan=$3,
+                tampil_jabatan=$4,
+                usia_pensiun=$5,
+                tunjangan=$6,
+                kode_jenjang_pendidikan=$7,
+                user_update=$8,
+                time_update=$9,
+                kel_jabatan=$10,
+                tunjangan_terbilang=$11,
+                kode_tingkat_jabatan=$12
+            WHERE kode_jabatan=$1
+            RETURNING *;
+        `;
+
+            const values = [
+                kode_jabatan,
+                kode_level_jabatan,
+                jabatan,
+                tampil_jabatan,
+                usia_pensiun,
+                tunjangan,
+                kode_jenjang_pendidikan,
+                user_update,
+                time_update,
+                kel_jabatan,
+                tunjangan_terbilang,
+                kode_tingkat_jabatan
+            ];
+
+            const { rows } = await db.query(query, values);
+            if (!rows.length)
+                return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Update Jabatan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Update Jabatan Error", error });
+        }
+    },
+    async deleteMasterJabatan(req, res) {
+        const { kode_jabatan } = req.body;
+        try {
+            const query = `DELETE FROM bpjph.tm_jabatan WHERE kode_jabatan=$1 RETURNING *;`;
+            const { rows } = await db.query(query, [kode_jabatan]);
+            if (!rows.length)
+                return res.status(404).send({ RC: "06", message: "Record not found" });
+            return res.status(200).send({ RC: "00", message: "Delete Jabatan Success", data: rows[0] });
+        } catch (error) {
+            console.error(error);
+            return res.status(400).send({ RC: "99", message: "Delete Jabatan Error", error });
+        }
+    },
 
 }
 export default Simpeg;

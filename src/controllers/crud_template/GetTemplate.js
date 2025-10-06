@@ -7,7 +7,8 @@ const allowedTables = ['tm_jenis_kelamin', 'tm_status_kawin', 'tm_agama', 'td_ba
   'tm_diklat', 'tm_masakerja', 'tm_jenissk', 'tm_pangkat', 'tm_satuan_kerja',
   'tm_jabatan_utama', 'tm_jabatan_tambahan', 'tm_bidang_studi', 'tm_jenis_pegawai',
   'tm_penghargaan', 'tm_kerja', 'tm_pegawai','tm_jenis_hukuman','tm_tingkat_hukuman','tm_peraturan',
-'tm_level_jabatan']; // whitelist your tables
+'tm_level_jabatan','tm_grup_satuan_kerja', 'tm_jenis_bidang_studi',
+'tm_tipe_diklat','tm_tipe_jabatan']; // whitelist your tables
 
 const GetTemplate = {
   async get(req, res) {

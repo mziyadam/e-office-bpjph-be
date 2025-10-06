@@ -544,6 +544,102 @@ app.get('/api/simpeg/getStatJenisKelamin',  Auth.verifyTokenWeb,Simpeg.getStatJe
 app.get('/api/simpeg/getStatPendidikan',  Auth.verifyTokenWeb,Simpeg.getStatPendidikan);
 app.get('/api/simpeg/getStatUsia',  Auth.verifyTokenWeb,Simpeg.getStatUsia);
 
+// MasterAgama
+app.get('/api/simpeg/getMasterAgama',  Auth.verifyTokenWeb, Simpeg.getMasterAgama);
+app.post('/api/simpeg/postMasterAgama',  Auth.verifyTokenWeb, Simpeg.postMasterAgama);
+app.put('/api/simpeg/putMasterAgama',  Auth.verifyTokenWeb, Simpeg.putMasterAgama);
+app.delete('/api/simpeg/deleteMasterAgama',  Auth.verifyTokenWeb, Simpeg.deleteMasterAgama);
+
+// MasterSatuanKerja
+app.get('/api/simpeg/getMasterSatuanKerja',  Auth.verifyTokenWeb, Simpeg.getMasterSatuanKerja);
+app.post('/api/simpeg/postMasterSatuanKerja',  Auth.verifyTokenWeb, Simpeg.postMasterSatuanKerja);
+app.put('/api/simpeg/putMasterSatuanKerja',  Auth.verifyTokenWeb, Simpeg.putMasterSatuanKerja);
+app.delete('/api/simpeg/deleteMasterSatuanKerja',  Auth.verifyTokenWeb, Simpeg.deleteMasterSatuanKerja);
+
+// MasterStatusKawin
+app.get('/api/simpeg/getMasterStatusKawin',  Auth.verifyTokenWeb, Simpeg.getMasterStatusKawin);
+app.post('/api/simpeg/postMasterStatusKawin',  Auth.verifyTokenWeb, Simpeg.postMasterStatusKawin);
+app.put('/api/simpeg/putMasterStatusKawin',  Auth.verifyTokenWeb, Simpeg.putMasterStatusKawin);
+app.delete('/api/simpeg/deleteMasterStatusKawin',  Auth.verifyTokenWeb, Simpeg.deleteMasterStatusKawin);
+
+// MasterStatusAnak
+app.get('/api/simpeg/getMasterStatusAnak',  Auth.verifyTokenWeb, Simpeg.getMasterStatusAnak);
+app.post('/api/simpeg/postMasterStatusAnak',  Auth.verifyTokenWeb, Simpeg.postMasterStatusAnak);
+app.put('/api/simpeg/putMasterStatusAnak',  Auth.verifyTokenWeb, Simpeg.putMasterStatusAnak);
+app.delete('/api/simpeg/deleteMasterStatusAnak',  Auth.verifyTokenWeb, Simpeg.deleteMasterStatusAnak);
+
+// MasterJenjangPendidikan
+app.get('/api/simpeg/getMasterJenjangPendidikan', Auth.verifyTokenWeb, Simpeg.getMasterJenjangPendidikan);
+app.post('/api/simpeg/postMasterJenjangPendidikan', Auth.verifyTokenWeb, Simpeg.postMasterJenjangPendidikan);
+app.put('/api/simpeg/putMasterJenjangPendidikan', Auth.verifyTokenWeb, Simpeg.putMasterJenjangPendidikan);
+app.delete('/api/simpeg/deleteMasterJenjangPendidikan', Auth.verifyTokenWeb, Simpeg.deleteMasterJenjangPendidikan);
+
+// MasterJenisBidangStudi
+app.get('/api/simpeg/getMasterJenisBidangStudi', Auth.verifyTokenWeb, Simpeg.getMasterJenisBidangStudi);
+app.post('/api/simpeg/postMasterJenisBidangStudi', Auth.verifyTokenWeb, Simpeg.postMasterJenisBidangStudi);
+app.put('/api/simpeg/putMasterJenisBidangStudi', Auth.verifyTokenWeb, Simpeg.putMasterJenisBidangStudi);
+app.delete('/api/simpeg/deleteMasterJenisBidangStudi', Auth.verifyTokenWeb, Simpeg.deleteMasterJenisBidangStudi);
+
+// MasterTipeDiklat
+app.get('/api/simpeg/getMasterTipeDiklat', Auth.verifyTokenWeb, Simpeg.getMasterTipeDiklat);
+app.post('/api/simpeg/postMasterTipeDiklat', Auth.verifyTokenWeb, Simpeg.postMasterTipeDiklat);
+app.put('/api/simpeg/putMasterTipeDiklat', Auth.verifyTokenWeb, Simpeg.putMasterTipeDiklat);
+app.delete('/api/simpeg/deleteMasterTipeDiklat', Auth.verifyTokenWeb, Simpeg.deleteMasterTipeDiklat);
+
+// MasterFakultasPendidikan
+app.get('/api/simpeg/getMasterFakultasPendidikan', Auth.verifyTokenWeb, Simpeg.getMasterFakultasPendidikan);
+app.post('/api/simpeg/postMasterFakultasPendidikan', Auth.verifyTokenWeb, Simpeg.postMasterFakultasPendidikan);
+app.put('/api/simpeg/putMasterFakultasPendidikan', Auth.verifyTokenWeb, Simpeg.putMasterFakultasPendidikan);
+app.delete('/api/simpeg/deleteMasterFakultasPendidikan', Auth.verifyTokenWeb, Simpeg.deleteMasterFakultasPendidikan);
+
+// MasterBidangStudi
+app.get('/api/simpeg/getMasterBidangStudi', Auth.verifyTokenWeb, Simpeg.getMasterBidangStudi);
+app.post('/api/simpeg/postMasterBidangStudi', Auth.verifyTokenWeb, Simpeg.postMasterBidangStudi);
+app.put('/api/simpeg/putMasterBidangStudi', Auth.verifyTokenWeb, Simpeg.putMasterBidangStudi);
+app.delete('/api/simpeg/deleteMasterBidangStudi', Auth.verifyTokenWeb, Simpeg.deleteMasterBidangStudi);
+
+// MasterDiklat
+app.get('/api/simpeg/getMasterDiklat', Auth.verifyTokenWeb, Simpeg.getMasterDiklat);
+app.post('/api/simpeg/postMasterDiklat', Auth.verifyTokenWeb, Simpeg.postMasterDiklat);
+app.put('/api/simpeg/putMasterDiklat', Auth.verifyTokenWeb, Simpeg.putMasterDiklat);
+app.delete('/api/simpeg/deleteMasterDiklat', Auth.verifyTokenWeb, Simpeg.deleteMasterDiklat);
+
+// MasterPangkat
+app.get('/api/simpeg/getMasterPangkat', Auth.verifyTokenWeb, Simpeg.getMasterPangkat);
+app.post('/api/simpeg/postMasterPangkat', Auth.verifyTokenWeb, Simpeg.postMasterPangkat);
+app.put('/api/simpeg/putMasterPangkat', Auth.verifyTokenWeb, Simpeg.putMasterPangkat);
+app.delete('/api/simpeg/deleteMasterPangkat', Auth.verifyTokenWeb, Simpeg.deleteMasterPangkat);
+
+// MasterJenisPegawai
+app.get('/api/simpeg/getMasterJenisPegawai', Auth.verifyTokenWeb, Simpeg.getMasterJenisPegawai);
+app.post('/api/simpeg/postMasterJenisPegawai', Auth.verifyTokenWeb, Simpeg.postMasterJenisPegawai);
+app.put('/api/simpeg/putMasterJenisPegawai', Auth.verifyTokenWeb, Simpeg.putMasterJenisPegawai);
+app.delete('/api/simpeg/deleteMasterJenisPegawai', Auth.verifyTokenWeb, Simpeg.deleteMasterJenisPegawai);
+
+// MasterStatusPegawai
+app.get('/api/simpeg/getMasterStatusPegawai', Auth.verifyTokenWeb, Simpeg.getMasterStatusPegawai);
+app.post('/api/simpeg/postMasterStatusPegawai', Auth.verifyTokenWeb, Simpeg.postMasterStatusPegawai);
+app.put('/api/simpeg/putMasterStatusPegawai', Auth.verifyTokenWeb, Simpeg.putMasterStatusPegawai);
+app.delete('/api/simpeg/deleteMasterStatusPegawai', Auth.verifyTokenWeb, Simpeg.deleteMasterStatusPegawai);
+
+// MasterTipeJabatan
+app.get('/api/simpeg/getMasterTipeJabatan', Auth.verifyTokenWeb, Simpeg.getMasterTipeJabatan);
+app.post('/api/simpeg/postMasterTipeJabatan', Auth.verifyTokenWeb, Simpeg.postMasterTipeJabatan);
+app.put('/api/simpeg/putMasterTipeJabatan', Auth.verifyTokenWeb, Simpeg.putMasterTipeJabatan);
+app.delete('/api/simpeg/deleteMasterTipeJabatan', Auth.verifyTokenWeb, Simpeg.deleteMasterTipeJabatan);
+
+// MasterLevelJabatan
+app.get('/api/simpeg/getMasterLevelJabatan', Auth.verifyTokenWeb, Simpeg.getMasterLevelJabatan);
+app.post('/api/simpeg/postMasterLevelJabatan', Auth.verifyTokenWeb, Simpeg.postMasterLevelJabatan);
+app.put('/api/simpeg/putMasterLevelJabatan', Auth.verifyTokenWeb, Simpeg.putMasterLevelJabatan);
+app.delete('/api/simpeg/deleteMasterLevelJabatan', Auth.verifyTokenWeb, Simpeg.deleteMasterLevelJabatan);
+
+// MasterJabatan
+app.get('/api/simpeg/getMasterJabatan', Auth.verifyTokenWeb, Simpeg.getMasterJabatan);
+app.post('/api/simpeg/postMasterJabatan', Auth.verifyTokenWeb, Simpeg.postMasterJabatan);
+app.put('/api/simpeg/putMasterJabatan', Auth.verifyTokenWeb, Simpeg.putMasterJabatan);
+app.delete('/api/simpeg/deleteMasterJabatan', Auth.verifyTokenWeb, Simpeg.deleteMasterJabatan);
+
 var server = app.listen(3002);
 server.setTimeout(60000);
 

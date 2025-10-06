@@ -379,6 +379,36 @@ const General = {
                   ],
                   "title": "Data Pegawai",
                   "translate": "DATA PEGAWAI"
+                },
+                {
+                  // "id": 602000,
+                  "icon": "far fa-user",
+                  "type": "collapse",
+                  "child": [
+                    {
+                      // "id": 602001,
+                      "href": "/admin_pegawai/data_pegawai",
+                      "icon": "typcn typcn-media-record",
+                      "type": "item",
+                      "title": "Admin Data Pegawai"
+                    },
+                    {
+                      // "id": 602001,
+                      "href": "/verif_pegawai/daftar_pegawai",
+                      "icon": "typcn typcn-media-record",
+                      "type": "item",
+                      "title": "Verifikasi Pegawai"
+                    },
+                    {
+                      // "id": 602001,
+                      "href": "/statspegawai",
+                      "icon": "typcn typcn-media-record",
+                      "type": "item",
+                      "title": "Statistik Pegawai"
+                    },
+                  ],
+                  "title": "Master Data",
+                  "translate": "MASTER DATA"
                 }
               ],
               "title": "Admin SIMPEG",
